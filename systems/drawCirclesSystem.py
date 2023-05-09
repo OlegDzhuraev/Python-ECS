@@ -3,19 +3,23 @@ from components import *
 from ecscore import *
 
 class DrawCirclesSystem:
-    filter: Filter
+    def Init(self):
+        self.filter = Filter().make(SystemsLoop.entities, Transform2D(), CircleRenderer())
+        self.cType = type(CircleRenderer())
+        self.tType = type(Transform2D())
 
-    def Init(self, entities):
-        self.filter = Filter().make(entities, Transform2D())
-
-    def Run(self, entities):
-        cType = type(CircleRenderer())
-        tType = type(Transform2D())
+    def Run(self):
+        dTime = get_frame_time()
 
         clear_background(RAYWHITE)
 
         for ent in self.filter.entities:
-            circle = entities.get_component(ent, cType)
-            transform = entities.get_component(ent, tType)
+            circle = SystemsLoop.entities.get_component(ent, self.cType)
+            transform = SystemsLoop.entities.get_component(ent, self.tType)
+       
+            if circle.radius <= 0.1:
+                SystemsLoop.entities.remove_component(ent, type(CircleRenderer()))
+            else:
+                circle.radius -= dTime
 
             draw_circle(transform.pos[0], transform.pos[1], circle.radius, circle.color)

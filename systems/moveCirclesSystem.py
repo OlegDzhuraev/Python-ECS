@@ -4,17 +4,15 @@ from components import *
 from main import pixelsPerUnit # todo circular reference, remove
 
 class MoveCirclesSystem:
-    filter: Filter
+    def Init(self):
+        self.filter = Filter().make(SystemsLoop.entities, Transform2D())
+        self.tType = type(Transform2D())
 
-    def Init(self, entities):
-        self.filter = Filter().make(entities, Transform2D())
-
-    def Run(self, entities):
-        tType = type(Transform2D())
-
+    def Run(self):
         frameSpeed = get_frame_time() * pixelsPerUnit
+
         for ent in self.filter.entities:
-            transform = entities.get_component(ent, tType)
+            transform = SystemsLoop.entities.get_component(ent, self.tType)
             
             transform.pos.x += transform.speed * frameSpeed
 

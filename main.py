@@ -10,7 +10,7 @@ renderSystemsLoop = SystemsLoop()
 
 def main():
     init_window(800, 450, "Python ECS Concept test")
-    set_target_fps(60)
+    set_target_fps(120)
 
     ecs_init() 
 
@@ -25,13 +25,13 @@ def main():
 
 
 def ecs_init():
-    systemsLoop.entities = entities
-    renderSystemsLoop.entities = entities
+    SystemsLoop.entities = entities
 
     systemsLoop.add(InitSystem())
     systemsLoop.add(MoveCirclesSystem())
     renderSystemsLoop.add(DrawCirclesSystem())
     renderSystemsLoop.add(DebugRenderSystem())
+    renderSystemsLoop.add(DrawSpritesSystem())
 
     systemsLoop.init()
     renderSystemsLoop.init()

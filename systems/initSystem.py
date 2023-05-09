@@ -4,12 +4,12 @@ from ecscore import *
 from random import *
 
 class InitSystem:
-    def Init(self, entities):
+    def Init(self):
         minSpeed = 3.
         maxSpeed = 8.
         
         for _ in range(500):
-            entId = entities.create()
+            entId = SystemsLoop.entities.create()
 
             transform = Transform2D()
             transform.pos = Vector2(400, randrange(64, 512))
@@ -21,8 +21,9 @@ class InitSystem:
             circle.radius = randrange(12, 64)
             circle.color = Color(lerp(0, 255, absSpeed / maxSpeed), 32, lerp(255, 0, absSpeed / maxSpeed), 255)
             
-            entities.add_component(entId, circle)
-            entities.add_component(entId, transform)
+            SystemsLoop.entities.add_component(entId, circle)
+            SystemsLoop.entities.add_component(entId, transform)
 
-    def Run(self, entities):
+
+    def Run(self):
         pass
