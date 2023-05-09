@@ -19,6 +19,25 @@ This project uses Raylib python bindings, so, in order to work, repo requires to
 7. Init systems by calling SystemsLoop class instance's Init method.
 8. Run systems in some for loop by calling ```SystemsLoop.Run()``` method.
 
+So, full initialization can look like this:
+```python
+from ecscore import *
+
+systemsLoop = SystemsLoop()
+
+# <...>
+SystemsLoop.entities = entities
+
+systemsLoop.add(SystemA())
+systemsLoop.add(SystemB())
+
+systemsLoop.init()
+
+# <...>
+while someCondition:
+  systemsLoop.run()
+```
+
 For more info, check example files (main.py, systems and components folders).
 
 # License
