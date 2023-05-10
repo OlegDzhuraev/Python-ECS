@@ -2,8 +2,9 @@
 Warning: Entities and components now are not optimized.
 '''
 class Entities:
-    entities = []
-    filters = [] 
+    def __init__(self):
+        self.entities = []
+        self.filters = []
 
     def create(self):
         entComponents = []
@@ -17,6 +18,7 @@ class Entities:
         return self.__append_component(entId, compType, lambda _0, _1 : True)
     
     def add_component(self, entId, comp):
+        # todo disallow all except object/some Component subclass
         cType = type(comp)
         if self.has_component(entId, cType):
             raise Exception("Entity can have only one component of the same type!")
@@ -61,8 +63,8 @@ class Filter:
     def make(self, entities: Entities, *componentTpls):
         for filter in entities.filters: 
             isSuitable = True
-            for cType in componentTpls: 
-                if not filter.includedTypes.__contains__(cType):
+            for comp in componentTpls: 
+                if not filter.includedTypes.__contains__(type(comp)):
                     isSuitable = False
                     break
 
@@ -74,8 +76,7 @@ class Filter:
         self.entities = []
 
         for componentTpl in componentTpls:
-            cType = type(componentTpl)
-            self.includedTypes.append(cType)
+            self.includedTypes.append(type(componentTpl))
             
         for entId in range(len(entities.entities)):
             if self.match(entId):
