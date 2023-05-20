@@ -2,9 +2,9 @@ from raylibpy import *
 from components import *
 from ecscore import *
 
-class DrawCirclesSystem:
+class DrawCirclesSystem(System):
     def Init(self):
-        self.filter = Filter().make(SystemsLoop.entities, Transform2D(), CircleRenderer())
+        self.filter = self.world.new_filter().make_inc((Transform2D(), CircleRenderer()))
         self.cType = type(CircleRenderer())
         self.tType = type(Transform2D())
 
@@ -14,11 +14,11 @@ class DrawCirclesSystem:
         clear_background(RAYWHITE)
 
         for ent in self.filter.entities:
-            circle = SystemsLoop.entities.get_component(ent, self.cType)
-            transform = SystemsLoop.entities.get_component(ent, self.tType)
+            circle = self.world.entities.get_component(ent, self.cType)
+            transform = self.world.entities.get_component(ent, self.tType)
        
             if circle.radius <= 0.1:
-                SystemsLoop.entities.remove_component(ent, type(CircleRenderer()))
+                self.world.entities.remove_component(ent, type(CircleRenderer()))
             else:
                 circle.radius -= dTime
 

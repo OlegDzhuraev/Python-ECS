@@ -3,16 +3,16 @@ from ecscore import *
 from components import *
 from main import pixelsPerUnit # todo circular reference, remove
 
-class MoveCirclesSystem:
+class MoveCirclesSystem(System):
     def Init(self):
-        self.filter = Filter().make(SystemsLoop.entities, Transform2D())
+        self.filter = self.world.new_filter().make_inc_exc((Transform2D(),), (PausedCircle(),))
         self.tType = type(Transform2D())
 
     def Run(self):
         frameSpeed = get_frame_time() * pixelsPerUnit
 
         for ent in self.filter.entities:
-            transform = SystemsLoop.entities.get_component(ent, self.tType)
+            transform = self.world.entities.get_component(ent, self.tType)
             
             transform.pos.x += transform.speed * frameSpeed
 
