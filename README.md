@@ -1,4 +1,4 @@
-# Python ECS Concept
+# Python ECS
 This repository contains Entity Component System concept written on the Python language. Can be used for a gamedev purposes.
 
 **Disclaimer:** This ECS implementation very raw and primitive, since I'm using this repo just to explore Python features and syntax. I needed  some gameplay loop to work with games in Python, and made this. It not suitable for production, and will not be.
