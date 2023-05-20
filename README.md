@@ -77,5 +77,9 @@ class SomeSystem(System):
 
 You need to initialize filter only once, and it will track all entities and components change.
 
+Actually, for filters tuples are used, it is not very fancy syntax, but it made like this to be consistent with make_inc_exc, which has both **include** and **exclude** arguments (so `*args` cannot by used here).
+
+If your filter has only one component, you can use `make_inc_one(YourComponent())` or `make_exc_one(YourComponent())`.
+
 # License
 MIT
