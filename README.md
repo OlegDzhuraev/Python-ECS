@@ -23,11 +23,10 @@ So, full initialization can look like this:
 ```python
 from ecscore import *
 
-systemsLoop = SystemsLoop()
+world = World() # initializing a new ECS World, where all ECS actions will be proceed
+systemsLoop = SystemsLoop(world) # Systems Loop is used to handle a group of systems. World can have any number of Systems Loops
 
 # <...>
-SystemsLoop.entities = entities
-
 systemsLoop.add(SystemA())
 systemsLoop.add(SystemB())
 
@@ -39,6 +38,44 @@ while someCondition:
 ```
 
 For more info, check example files (main.py, systems and components folders).
+## Components
+To make a new component, simple define a new class with some data type defines (since it is python, you can don't define anything at all, but is it a good idea? :))
+
+## Systems
+Systems proceeds all game logic, handling ingame entities and their components.
+
+```python
+from ecscore import *
+
+# defining a new system. Derive it from ECS built-in System class
+class SomeSystem(System):
+    def Init(self):
+        # do some init steps there. It will be runned once at start
+
+    def Run(self):
+        # do entity components update logic here, called every frame. Get frame time from your game framework to correctly handle all data.
+```
+
+## Filters
+Filters is a key concept to work with ECS. Them allows you to get all needed entities and exclude unneeded ones from a query.
+
+How to use:
+```python
+from ecscore import *
+# import your component types here
+
+# example system
+class SomeSystem(System):
+    def Init(self):
+        # making a filter with two components, all entities, which doesn't have both components, will be excluded.
+        self.filter = self.world.new_filter().make_inc((Transform2D(), SpriteRenderer()))
+
+    def Run(self):
+        for ent in self.filter.entities:
+            # do something with each ent there         
+```
+
+You need to initialize filter only once, and it will track all entities and components change.
 
 # License
 MIT
